@@ -25,3 +25,6 @@ https://github.com/ScoopInstaller/Scoop#readme
 ### Install "migrate" through scoop
 ` scoop install migrate `
 - add migrate to path system variables (in ~\scoop\apps\migrate\ [version])
+
+### Running sqlc generate on "windows"
+`docker run --rm -v "%cd%:/src" -w /src kjconroy/sqlc generate`

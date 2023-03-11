@@ -13,4 +13,9 @@ migrateup:
 migratedown:
 	migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
 
-.PHONY: createdb dropdb postgres migrateup migratedown
+sqlc-generate:
+	docker run --rm -v "C:\Users\Medo\OneDrive\Desktop\Projects\go-backend:/src" -w /src kjconroy/sqlc generate
+
+
+
+.PHONY: createdb dropdb postgres migrateup migratedown sqlc-generate
