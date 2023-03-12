@@ -16,6 +16,7 @@ migratedown:
 sqlc-generate:
 	docker run --rm -v "C:\Users\Medo\OneDrive\Desktop\Projects\go-backend:/src" -w /src kjconroy/sqlc generate
 
-
+test:
+	go test -v -cover ./...
 
 .PHONY: createdb dropdb postgres migrateup migratedown sqlc-generate

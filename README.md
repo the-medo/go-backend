@@ -2,6 +2,8 @@
 ### Go backend masterclass
 Golang, Postgres, Redis, Gin, gRPC, Docker, Kubernetes, AWS, CI/CD
 
+https://github.com/techschool/simplebank/blob/master/README.md
+
 
 ## Tool setup on windows
 ### Using make commands on windows
@@ -28,3 +30,9 @@ https://github.com/ScoopInstaller/Scoop#readme
 
 ### Running sqlc generate on "windows"
 `docker run --rm -v "%cd%:/src" -w /src kjconroy/sqlc generate`
+
+---
+
+### postgres driver
+`go get github.com/lib/pq`
+`go get github.com/stretchr/testify`
