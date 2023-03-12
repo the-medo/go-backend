@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"time"
 )
 
 const createEntry = `-- name: CreateEntry :one
@@ -15,18 +14,16 @@ const createEntry = `-- name: CreateEntry :one
 INSERT INTO entries
 (
     account_id,
-    amount,
-    created_at
+    amount
 )
 VALUES
-    ($1, $2, $3)
+    ($1, $2)
 RETURNING id, account_id, amount, created_at
 `
 
 type CreateEntryParams struct {
-	AccountID int64     `json:"account_id"`
-	Amount    int64     `json:"amount"`
-	CreatedAt time.Time `json:"created_at"`
+	AccountID int64 `json:"account_id"`
+	Amount    int64 `json:"amount"`
 }
 
 // "id" bigserial PRIMARY KEY,
@@ -34,7 +31,7 @@ type CreateEntryParams struct {
 // "amount" bigint NOT NULL,
 // "created_at" timestamptz NOT NULL DEFAULT (now())
 func (q *Queries) CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry, error) {
-	row := q.db.QueryRowContext(ctx, createEntry, arg.AccountID, arg.Amount, arg.CreatedAt)
+	row := q.db.QueryRowContext(ctx, createEntry, arg.AccountID, arg.Amount)
 	var i Entry
 	err := row.Scan(
 		&i.ID,

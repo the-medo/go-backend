@@ -8,11 +8,10 @@
 INSERT INTO entries
 (
     account_id,
-    amount,
-    created_at
+    amount
 )
 VALUES
-    ($1, $2, $3)
+    ($1, $2)
 RETURNING *;
 
 -- name: GetEntry :one
