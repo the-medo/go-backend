@@ -26,6 +26,9 @@ sqlc-generate:
 test:
 	go test -v -cover ./...
 
+server:
+	go run main.go
+
 prepare: rm-postgres postgres wait-for-createdb createdb wait-for-createdb migrateup
 
 .PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test
