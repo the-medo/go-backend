@@ -29,6 +29,9 @@ test:
 server:
 	go run main.go
 
+mock:
+	mockgen -package mockdb -destination db/mock/store.go github.com/the-medo/go-backend/db/sqlc Store
+
 prepare: rm-postgres postgres wait-for-createdb createdb wait-for-createdb migrateup
 
-.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test
+.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock

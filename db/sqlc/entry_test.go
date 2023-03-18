@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"github.com/stretchr/testify/require"
-	"go-backend/util"
+	"github.com/the-medo/go-backend/util"
 	"testing"
 )
 

@@ -2,7 +2,7 @@ package db
 
 import (
 	"database/sql"
-	"go-backend/util"
+	"github.com/the-medo/go-backend/util"
 	"log"
 	"os"
 	"testing"

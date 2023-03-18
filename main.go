@@ -2,9 +2,9 @@ package main
 
 import (
 	"database/sql"
-	"go-backend/api"
-	db "go-backend/db/sqlc"
-	"go-backend/util"
+	"github.com/the-medo/go-backend/api"
+	db "github.com/the-medo/go-backend/db/sqlc"
+	"github.com/the-medo/go-backend/util"
 	"log"
 
 	_ "github.com/lib/pq"
