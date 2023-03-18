@@ -36,3 +36,8 @@ https://github.com/ScoopInstaller/Scoop#readme
 ### postgres driver
 `go get github.com/lib/pq`
 `go get github.com/stretchr/testify`
+
+---
+### Create migration
+
+`migrate create -ext sql -dir db/migration -seq migration_name`
