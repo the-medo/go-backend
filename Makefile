@@ -3,7 +3,7 @@ rm-postgres:
 	docker rm postgres15
 
 postgres:
-	docker run --name postgres15 -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:15-alpine
+	docker run --name postgres15 --network go-backend-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:15-alpine
 
 createdb:
 	docker exec -it postgres15 createdb --username=root --owner=root simple_bank
