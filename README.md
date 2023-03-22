@@ -41,3 +41,8 @@ https://github.com/ScoopInstaller/Scoop#readme
 ### Create migration
 
 `migrate create -ext sql -dir db/migration -seq migration_name`
+
+---
+### Install jq
+
+https://stedolan.github.io/jq/download/
