@@ -1,4 +1,4 @@
-include env_vars.mk
+DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
 rm-postgres:
 	docker stop postgres15
@@ -17,16 +17,16 @@ dropdb:
 	docker exec -it postgres15 dropdb simple_bank
 
 migrateup:
-	migrate -path db/migration -database "postgresql://root:$(AWS_DB_PASSWORD)@$(AWS_DB_HOST):5432/simple_bank" -verbose up
+	migrate -path db/migration -database "$(DB_URL)" -verbose up
 
 migrateup1:
-	migrate -path db/migration -database "postgresql://root:$(AWS_DB_PASSWORD)@$(AWS_DB_HOST):5432/simple_bank" -verbose up 1
+	migrate -path db/migration -database "$(DB_URL)" -verbose up 1
 
 migratedown:
-	migrate -path db/migration -database "postgresql://root:$(AWS_DB_PASSWORD)@$(AWS_DB_HOST):5432/simple_bank" -verbose down
+	migrate -path db/migration -database "$(DB_URL)" -verbose down
 
 migratedown1:
-	migrate -path db/migration -database "postgresql://root:$(AWS_DB_PASSWORD)@$(AWS_DB_HOST):5432/simple_bank" -verbose down 1
+	migrate -path db/migration -database "$(DB_URL)" -verbose down 1
 
 sqlc-generate:
 	docker run --rm -v "C:\Users\Medo\OneDrive\Desktop\Projects\go-backend:/src" -w /src kjconroy/sqlc generate
