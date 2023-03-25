@@ -6,6 +6,8 @@ package db
 
 import (
 	"context"
+
+	"github.com/google/uuid"
 )
 
 type Querier interface {
@@ -16,6 +18,7 @@ type Querier interface {
 	//                            "amount" bigint NOT NULL,
 	//                            "created_at" timestamptz NOT NULL DEFAULT (now())
 	CreateEntry(ctx context.Context, arg CreateEntryParams) (Entry, error)
+	CreateSession(ctx context.Context, arg CreateSessionParams) (Session, error)
 	//                              "id" bigserial PRIMARY KEY,
 	//                              "from_account_id" bigint NOT NULL,
 	//                              "to_account_id" bigint NOT NULL,
@@ -29,6 +32,7 @@ type Querier interface {
 	GetAccount(ctx context.Context, id int64) (Account, error)
 	GetAccountForUpdate(ctx context.Context, id int64) (Account, error)
 	GetEntry(ctx context.Context, id int64) (Entry, error)
+	GetSession(ctx context.Context, id uuid.UUID) (Session, error)
 	GetTransfer(ctx context.Context, id int64) (Transfer, error)
 	GetUser(ctx context.Context, username string) (User, error)
 	ListAccounts(ctx context.Context, arg ListAccountsParams) ([]Account, error)

@@ -46,3 +46,14 @@ https://github.com/ScoopInstaller/Scoop#readme
 ### Install jq
 
 https://stedolan.github.io/jq/download/
+
+
+---
+## Workflow
+1. **create new migration** `migrate create -ext sql -dir db/migration -seq migration_name`
+2. **edit migration up/down sql files**
+3. **run migrations** - `make migrateup`
+4. **create new query files in** - `db/query`
+5. **SQLC - generate sql.go file** `make sqlc-generate`
+6. **run mockgen** - `make mock`
+6. **run tests** - `make test`
