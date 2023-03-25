@@ -40,6 +40,12 @@ server:
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/the-medo/go-backend/db/sqlc Store
 
+db_docs:
+	dbdocs password --set secret --project simple_bank
+
+db_schema:
+	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
+
 prepare: rm-postgres postgres wait-for-createdb createdb wait-for-createdb migrateup
 
-.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock migrateup1 migratedown1
+.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock migrateup1 migratedown1 db_docs db_schema
