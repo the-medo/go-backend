@@ -46,17 +46,22 @@ db_docs:
 db_schema:
 	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
 
-proto_win:
+proto_delete_win:
 	del /Q pb\*.pb.go
-	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative proto/*.proto
 
-proto_linux:
+proto_delete_linux:
 	rm -f pb/*.pb.go
-	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative proto/*.proto
+
+proto_without_clean:
+	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative --grpc-gateway_out=pb --grpc-gateway_opt paths=source_relative proto/*.proto
+
+proto_win: proto_delete_win	proto_without_clean
+
+proto_linux: proto_delete_linux proto_without_clean
 
 evans:
 	evans --host localhost --port 9090 -r repl
 
 prepare: rm-postgres postgres wait-for-createdb createdb wait-for-createdb migrateup
 
-.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock migrateup1 migratedown1 db_docs db_schema proto_win proto_linux evans
+.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock migrateup1 migratedown1 db_docs db_schema proto_win proto_linux evans proto_without_clean
