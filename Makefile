@@ -54,6 +54,9 @@ proto_linux:
 	rm -f pb/*.pb.go
 	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative --go-grpc_out=pb --go-grpc_opt=paths=source_relative proto/*.proto
 
+evans:
+	evans --host localhost --port 9090 -r repl
+
 prepare: rm-postgres postgres wait-for-createdb createdb wait-for-createdb migrateup
 
-.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock migrateup1 migratedown1 db_docs db_schema proto_win proto_linux
+.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock migrateup1 migratedown1 db_docs db_schema proto_win proto_linux evans
