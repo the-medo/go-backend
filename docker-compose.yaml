@@ -6,6 +6,11 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=secret
       - POSTGRES_DB=simple_bank
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d simple_bank -U root" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
   api:
     build:
       context: .
@@ -15,13 +20,6 @@ services:
     environment:
       - DB_SOURCE=postgres://root:secret@postgres:5432/simple_bank?sslmode=disable
     depends_on:
-      - postgres
-    entrypoint:
-      [
-        "/app/wait-for.sh",
-        "postgres:5432",
-        "--",
-        "/app/start.sh"
-      ]
-    command: [ "/app/main" ]
+      postgres:
+        condition: service_healthy
 
