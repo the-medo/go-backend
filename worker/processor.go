@@ -6,6 +6,11 @@ import (
 	db "github.com/the-medo/go-backend/db/sqlc"
 )
 
+const (
+	QueueCritical = "critical"
+	QueueDefault  = "default"
+)
+
 type TaskProcessor interface {
 	Start() error
 	ProcessTaskSendVerifyEmail(ctx context.Context, task *asynq.Task) error
@@ -17,9 +22,16 @@ type RedisTaskProcessor struct {
 }
 
 func NewRedisTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) TaskProcessor {
-	server := asynq.NewServer(redisOpt, asynq.Config{
-		Concurrency: 10,
-	})
+	server := asynq.NewServer(
+		redisOpt,
+		asynq.Config{
+			Queues: map[string]int{
+				QueueCritical: 10,
+				QueueDefault:  5,
+			},
+			Concurrency: 10,
+		},
+	)
 	return &RedisTaskProcessor{
 		server: server,
 		store:  store,

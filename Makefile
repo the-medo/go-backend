@@ -65,6 +65,9 @@ proto_linux: proto_delete_linux proto_without_clean
 evans:
 	evans --host localhost --port 9090 -r repl
 
+redis:
+	docker run --name redis -p 6379:6379 -d redis:7-alpine
+
 prepare: rm-postgres postgres wait-for-createdb createdb wait-for-createdb migrateup
 
-.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock migrateup1 migratedown1 db_docs db_schema proto_win proto_linux evans proto_without_clean
+.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock migrateup1 migratedown1 db_docs db_schema proto_win proto_linux evans proto_without_clean redis
