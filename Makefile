@@ -4,6 +4,10 @@ rm-postgres:
 	docker stop postgres15
 	docker rm postgres15
 
+rm-redis:
+	docker stop redis
+	docker rm redis
+
 postgres:
 	docker run --name postgres15 --network go-backend-network -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:15-alpine
 
@@ -68,6 +72,9 @@ evans:
 redis:
 	docker run --name redis -p 6379:6379 -d redis:7-alpine
 
-prepare: rm-postgres postgres wait-for-createdb createdb wait-for-createdb migrateup
+new_migration:
+	migrate create -ext sql -dir db/migration -seq $(name)
 
-.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock migrateup1 migratedown1 db_docs db_schema proto_win proto_linux evans proto_without_clean redis
+prepare: rm-postgres rm-redis postgres redis wait-for-createdb createdb wait-for-createdb migrateup
+
+.PHONY: rm-postgres createdb dropdb postgres migrateup migratedown sqlc-generate test mock migrateup1 migratedown1 db_docs db_schema proto_win proto_linux evans proto_without_clean redis new_migration

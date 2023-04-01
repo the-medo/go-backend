@@ -20,7 +20,7 @@ INSERT INTO users
 )
 VALUES
     ($1, $2, $3, $4)
-RETURNING username, hashed_password, full_name, email, password_changed_at, created_at
+RETURNING username, hashed_password, full_name, email, password_changed_at, created_at, is_email_verified
 `
 
 type CreateUserParams struct {
@@ -45,12 +45,13 @@ func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, e
 		&i.Email,
 		&i.PasswordChangedAt,
 		&i.CreatedAt,
+		&i.IsEmailVerified,
 	)
 	return i, err
 }
 
 const getUser = `-- name: GetUser :one
-SELECT username, hashed_password, full_name, email, password_changed_at, created_at FROM users WHERE username = $1 LIMIT 1
+SELECT username, hashed_password, full_name, email, password_changed_at, created_at, is_email_verified FROM users WHERE username = $1 LIMIT 1
 `
 
 func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
@@ -63,6 +64,7 @@ func (q *Queries) GetUser(ctx context.Context, username string) (User, error) {
 		&i.Email,
 		&i.PasswordChangedAt,
 		&i.CreatedAt,
+		&i.IsEmailVerified,
 	)
 	return i, err
 }
@@ -76,7 +78,7 @@ SET
     email = COALESCE($4, email)
 WHERE
     username = $5
-RETURNING username, hashed_password, full_name, email, password_changed_at, created_at
+RETURNING username, hashed_password, full_name, email, password_changed_at, created_at, is_email_verified
 `
 
 type UpdateUserParams struct {
@@ -103,6 +105,7 @@ func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, e
 		&i.Email,
 		&i.PasswordChangedAt,
 		&i.CreatedAt,
+		&i.IsEmailVerified,
 	)
 	return i, err
 }
@@ -124,7 +127,7 @@ SET
     END
 WHERE
     username = $7
-RETURNING username, hashed_password, full_name, email, password_changed_at, created_at
+RETURNING username, hashed_password, full_name, email, password_changed_at, created_at, is_email_verified
 `
 
 type UpdateUserVersion1Params struct {
@@ -155,6 +158,7 @@ func (q *Queries) UpdateUserVersion1(ctx context.Context, arg UpdateUserVersion1
 		&i.Email,
 		&i.PasswordChangedAt,
 		&i.CreatedAt,
+		&i.IsEmailVerified,
 	)
 	return i, err
 }

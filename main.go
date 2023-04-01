@@ -16,6 +16,7 @@ import (
 	db "github.com/the-medo/go-backend/db/sqlc"
 	_ "github.com/the-medo/go-backend/doc/statik"
 	"github.com/the-medo/go-backend/gapi"
+	"github.com/the-medo/go-backend/mail"
 	"github.com/the-medo/go-backend/pb"
 	"github.com/the-medo/go-backend/util"
 	"github.com/the-medo/go-backend/worker"
@@ -53,7 +54,7 @@ func main() {
 
 	taskDistributor := worker.NewRedisTaskDistributor(redisOpt)
 
-	go runTaskProcessor(redisOpt, store)
+	go runTaskProcessor(config, redisOpt, store)
 	go runGatewayServer(config, store, taskDistributor)
 	runGrpcServer(config, store, taskDistributor)
 }
@@ -72,8 +73,9 @@ func runDBMigration(migrationURL string, dbSource string) {
 	log.Info().Msg("Migration successful")
 }
 
-func runTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) {
-	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store)
+func runTaskProcessor(config util.Config, redisOpt asynq.RedisClientOpt, store db.Store) {
+	mailer := mail.NewGmailSender(config.EmailSenderName, config.EmailSenderAddress, config.EmailSenderPassword)
+	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store, mailer)
 	log.Info().Msg("starting task processor")
 	err := taskProcessor.Start()
 	if err != nil {

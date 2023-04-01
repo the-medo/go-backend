@@ -26,6 +26,7 @@ type Querier interface {
 	//                              "created_at" timestamptz NOT NULL DEFAULT (now())
 	CreateTransfer(ctx context.Context, arg CreateTransferParams) (Transfer, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
+	CreateVerifyEmail(ctx context.Context, arg CreateVerifyEmailParams) (VerifyEmail, error)
 	DeleteAccount(ctx context.Context, id int64) error
 	DeleteEntry(ctx context.Context, id int64) error
 	DeleteTransfer(ctx context.Context, id int64) error
