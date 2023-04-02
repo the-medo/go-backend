@@ -45,6 +45,7 @@ type Querier interface {
 	UpdateTransfer(ctx context.Context, arg UpdateTransferParams) (Transfer, error)
 	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
 	UpdateUserVersion1(ctx context.Context, arg UpdateUserVersion1Params) (User, error)
+	UpdateVerifyEmail(ctx context.Context, arg UpdateVerifyEmailParams) (VerifyEmail, error)
 }
 
 var _ Querier = (*Queries)(nil)
